@@ -1,0 +1,313 @@
+IIcNotes.txt
+
+Apple IIc usage primer
+
+1. Make an ADTPro cable, and get the ADTPro software
+	https://adtpro.com
+
+2. Run the ADTPro bootstrap to get the ADTPro disk image to a physical disk.
+ - Makes it possible to get going on an Apple II with only some blank(able) floppies
+
+3. Snag ProDOS disk and use ADTPro to copy it to a floppy
+	https://prodos8.com/
+
+From here, we have all we need to get started on the system, but
+some additional
+
+stuff make life more worth living:
+
+
+Editing BASIC programs on the II with the builtin editor functions
+(ESC/I/J/K/L) will make you want to run screaming.  TSR-like utilities
+such as Beagle Brothers "Program Writer" are basically necessary
+to keep you sane.
+
+http://beagle.applearchives.com/the_software/the_timeout_series/program_writer.html
+
+Other options suggested from KansasFest folks include:
+
+	"G.A.P.E." http://www.huibert-aalbers.com/EarlyDays/AppleII/GAPE/index.html
+		Global Applesoft Program Editor
+		https://github.com/huibert7/G.A.P.E.-Global-Applesoft-Program-Editor-/releases/tag/1.0
+
+and 
+	"PLE" ?
+
+
+Apple II info primer
+
+	- ADTPro - serial based tool that lets you transfer disk image 
+		files from a modern desktop computer (PC/Mac/Linux) to actual 
+		disks on your Apple II (and vice versa)
+
+	- DOS vs ProDOS
+		- "DOS" v3.3 is the older version of the disk interface system.  it's 
+			probably good enough for modern usage with just plain floppies, but
+			there's really no reason not to go with ProDOS.
+
+			BRUN PROGRAMNAME			run a program from a disk
+			CAT							list disk contents
+			RUN PROGRAM,D2				load and run a program from disk 2
+
+			Files are basically accessed by the last disk accessed. so 
+			saving a program after the above "RUN" will save it to disk 2.
+
+
+		- "ProDOS 8" v2.4.2 Is the most recent version. Originally released 
+
+			by Apple, it's now maintained by a guy that used to work 
+			on it at apple.  Even though the most modern version is 
+			not provided from apple, it's the one you want.
+
+			ProDOS adds subfolders, but shortens filenames to 15 characters 
+			long, adds support for larger disks (3.5" unidrive, etc), 
+			and other general quality of life improvements
+
+			- PROGRAMNAME				run a program from a disk
+			CAT							list disk contents
+			CATALOG						list disk contents
+
+			- working with subfolders is cumbersome, but okay.  Tools on the 
+			ProDOS disk are pretty much required for moving, well, 
+			copying files around.  Apparently you use the full 
+			qualifier for the directory, 
+			like:  "S6,D2:/DISKNAME/DIRECTORY" for slot 6, disk 2, disk named "DISKNAME"
+			etc.
+
+		Unknowns yet:
+			- move a file into a subdirectory
+			- loading basic files from subdirectory
+
+		In base DOS or ProDOS, the disks of the "other DOS" are not readable
+		however they can be copied over using a tool like "Copy II Plus",
+		which is on the ProDOS distribution disk.
+
+	- ProDOS Primer
+		- on startup it will run the first .SYSTEM file it finds.
+		- Files on the disk (in the order they're on the disk)
+
+			VIEW.README				loads the readie file (like "more")
+			BITSY.BOOT				pick a new slot to boot from
+			QUIT.SYSTEM				bitsy.bye - nice app/file launcher
+			BASIC.SYSTEM			Applesoft BASIC
+			COPYIIPLUS.8.4			Copy II Plus - copy/create directories, disks, etc
+			CAT.DOCTOR				Catalog (directory) manipulations/reorder, etc
+			ADTPRO2.0.2				ADTPro, slightly older version
+			FASTDSK.SYSTEM			lets some other apps interact with the disk faster
+			UNSHRINK				unshrinks (decompresses) crunched files
+			BLOCKWARDEN				disk sector editor
+			MR.FIXIT.Y2K			disk repair utility
+			MAKE.SMALL.P8			makes a smaller version of ProDOS, removing IIGS stuff
+			MINIBAS					Smaller Applesoft BASIC interpreter, not editor.
+			ADTPRO2.0.2.BIN			Support content for ADTPro
+			CD.EXT					CD Rom support ?
+			FASTDSK					binary for helping faster disk operations ?
+			FASTDSK.CONF			configuration for that ?
+			README					textfile: readme
+			PRODOS					core ProDOS system
+
+		I made a "edit basic programs" version of the ProDOS disk, by starting with
+		a copy of the ProDOS disk, and stripping it down to these files:
+
+			BITSY.BOOT				(not sure if needed)
+			QUIT.SYSTEM				BITSY BYE for booting
+			BASIC.SYSTEM			Applesoft BASIC
+			COPYIIPLUS.8.4			copy files around
+			MINIBAS					to try it out
+			PRODOS					ProDOS
+
+		Then I copied over from the Beagle Bros "Program Writer" disk:
+			EDITOR					Program Writer TSR-like tool
+
+
+		To do BASIC stuff, I use BITSY to pick the BASIC program on the disk, to
+		load it, or I pick BASIC.SYSTEM to just start with a fresh slate.
+
+		From there, I type:
+			- editor
+
+		to load in Program Writer, which can be called up while in BASIC by 
+		typing:
+			&&
+
+		Saving files is as easy as:
+			SAVE filename
+
+		It works really well
+
+
+
+	- BASIC
+		There are essentially two versions of BASIC available.
+		First is the older "Integer BASIC" and the better
+		"Floating Point BASIC" which is also commonly known
+		as "Applesoft BASIC".
+
+		Switching into Integer basic can be done by typing
+		"INT", and to Floating Point basic by typing "FP".
+		Either of these will erase your program in memory,
+		even if it's going to the same version.
+
+		Most all examples I've found are for FP/Applesoft BASIC.
+
+		On the ProDOS disk, the file "BASIC.SYSTEM" contains Applesoft BASIC.
+
+		When running a program, pressing CONTROL-C will
+		break it.  If you have input/output redirected to
+		a slot (PR#/IN#) then CONTROL-RESET will reset
+		input/output to the keyboard/screen
+
+
+	- Disk replacements
+		On Apple II machines with slots, "BOOTI" or
+		"MicroDrive/Turbo" or "PiDrive" are drive/disk
+		emulators, if you don't want to use physical floppies,
+		or for if you want to have larger disks or hard
+		disks.
+
+
+	- Apple IIc has a "terminal mode" which i haven't gotten
+		to work at 4800 baud.
+
+
+		Page 314 here: https://mirrors.apple2.org.za/Apple%20II%20Documentation%20Project/Books/Gary%20B.%20Little%20-%20Inside%20the%20Apple%20IIc.pdf
+		(pg 333 of the PDF)
+
+		IN#2 [return] [control-a] T					(doesn't echo input) 
+		IN#2 [return] PR#2 [return]	[control-a] T	(echoes input)
+
+		or for 4800 baud:
+		IN#2 [return] [control-i] 12B PR#2 [return]	 [control-a] T
+
+
+		program to set baud rate
+
+		6551 control register
+		[7]		0x00 - 1 stop bit
+				0x80 - 2/1 stop bit
+		[6,5]	0x00 - 8 bits
+				0x20 - 7 bits
+				0x40 - 6 bits
+				0x60 - 5 bits
+		[4]		0x00 - external rx clock
+				0x10 - baud rate generator
+
+		[3..0]	baud rate
+				0x06	300 baud (default?)
+				0x07	600 baud
+				0x08	1200 baud
+				0x0c	4800 baud
+				0x0E 	9600 baud
+				0x0F	19200 baud
+
+		4800 baud 8N1 = 0x1c (28d)
+
+		eg: "24" = 0x18 -> baud rate gen, 8N1 1200 baud
+
+	Font / graphics rom 
+	* IIgs, IIenhanced, IIc
+		- need to be in 80 column mode
+		- MouseText https://en.wikipedia.org/wiki/MouseText
+		eg:
+
+			PR#3
+			INVERSE : PRINT CHR$(27);"XY";CHR$(24); : NORMAL
+
+
+
+Disk image (DSK) file retrieval:
+
+	the goal is to copy files off of a DSK image on a desktop computer to
+	the desktop computer's filesystem... namely BASIC Programs.
+
+	Suggested tools:
+		- Ciderpress
+		- AppleCommander
+		- VirtualBasic (https://virtualbasic.org/) to covert text files without line numbers to AppleSoft.
+
+	Process that worked:
+		- use the Virtual ][ emulator, boot up an emulated //c with the .DSK image loaded in
+		- Set the virtual printer to output to a text file.
+
+		- Brendan B's version
+
+			- PR#3:PR#1:LIST 
+
+		- kaldor's version: (adds to basic program)
+
+			0 poke 33,33:d$=chr$(4):f$=“myprog.txt”:?d$”OPEN”f$:?d$”WRITE”f$:LIST 1-:?d$”CLOSE”f$:TEXT:END
+			Edit with text editor
+			EXEC myprog.txt
+
+		- working version: (TEST THIS)
+
+			- 40 col mode: without indenting (the poke)
+				PR#1:POKE 33,33
+			- wide view, w/line breaks at 80 cols:
+				PR#3:PR#1
+			- w/out line breaks: without idnenting (the poke for 80 cols)
+				POKE 33,73
+
+//c ROM stuff:
+	https://www.bigmessowires.com/2015/05/29/apple-iic-rom-upgrade/
+	in short:
+	in BASIC type: 
+		PRINT PEEK( 64447 )
+
+	255: 	16k ROM: Original //c ROM. My system had this.  no diagnostics, boot from drive II via PR#7
+	0:		32k ROM: Added Unidisk/Smartport Disks (needs jumpers cut, etc)
+	3: 		newer IIc boards with RAM expansion
+	4:		v3 with bugfixes
+	4x:		hacked version with additional diagnositcs and tools.
+
+
+	- I have an early //c without RAM expansion header.  I'm
+		running ROM4x, which is probably overkill, as my
+		Mouse is now moved to slot 7. I should probably
+		downgrade to ROM 0.
+
+	RESET/BREAK Notes:
+		CTRL-C
+			warm-break in the current BASIC program,
+			but will not redirect in/out (PR/IN)
+
+		CTRL-RESET
+			acts like CTRL-C but also resets in/out
+
+		CTRL-OpenApple-RESET
+			old/Hard reset (like power-on)
+			- release CTRL, RESET first
+			- relase OpenApple last
+
+		CTRL-ClosedApple-RESET
+			Cold/Hard reset for 4x rom. goes to 4x menu
+			- release CTRL, RESET first
+			- release ClosedApple last
+
+		CTRL-OpenApple-ClosedApple-RESET
+			Cold/Hard reset, goes to rom Diagnostics on 0,3,4 ROMs
+			- release CTRL, RESET first
+			- release OpenApple, ClosedApple last
+
+
+
+			
+
+Thanks to Kansasfest Folks:
+	Copy DOS to ProDos:
+		tdiaz: Copy II Plus (on my ProDOS disk)
+		Bobbi: Chameleon
+		ApPaul II Forver: dos/Prodos info
+
+thanks to kfest peeps:
+	- Micah
+	- Chris
+	- Scanjo
+	- Bobbi
+	- Gary Gray
+	- Ivan X
+	- Kaldor Silverwand
+	- Dennis 
+	- Brendan B
+	- Huibert (GAPE author)
+
